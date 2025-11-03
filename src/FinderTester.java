@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.Timeout;
 import java.io.*;
 import java.util.concurrent.TimeUnit;
