@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Finder
@@ -12,38 +11,15 @@ import java.util.ArrayList;
  **/
 
 public class Finder {
-
-    // Value if key is not found in the table
     private static final String INVALID = "INVALID KEY";
-
-    // Number of KeyValues in the table
-    private static final int TABLE_SIZE = 1000000;
-
-    // Table of KeyValues
-    private ArrayList<KeyValue>[] table;
-
-    /**
-     * Helper Class:
-     * Store key-value pairs both as strings
-     */
-    private static class KeyValue {
-        public String key;
-        public String value;
-        public KeyValue (String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
+    private HashMap map;
 
     /**
      * Constructor:
      * Initializes the table of KeyValues
      */
     public Finder() {
-        table = new ArrayList[TABLE_SIZE];
-        for (int i = 0; i < TABLE_SIZE; i++) {
-            table[i] = new ArrayList<>();
-        }
+        map = new HashMap();
     }
 
     /**
@@ -60,10 +36,8 @@ public class Finder {
             String key = columns[keyCol];
             String value = columns[valCol];
 
-            long keyHash = hash(key);
-            int index = (int)(keyHash % TABLE_SIZE);
             // Add the key and value to the table
-
+            map.add(key, value);
         }
 
         // Close resource
@@ -72,34 +46,11 @@ public class Finder {
 
     /**
      * Method:
-     * Computes a hash value from a string
-     */
-    public static long hash(String key) {
-        long hash = 0;
-        int RADIX = 256;
-        long p = 54321102419L;
-        for (int i = 0; i < key.length(); i++) {
-            hash = (hash * RADIX + key.charAt(i)) % p;
-        }
-        return hash;
-    }
-
-    /**
-     * Method:
      * Returns value associated with a key
      */
     public String query(String key){
-        long keyHash = hash(key);
-        int index = (int)(keyHash % TABLE_SIZE);
-
-        // Search through the list for the exact key
-        for (KeyValue keyValue : table[index]) {
-            if (keyValue.key.equals(key)) {
-                return keyValue.value;
-            }
-        }
-
-        // If not found, return INVALID
-        return INVALID;
+        String result = map.get(key);
+        if (result == null) return INVALID;
+        return result;
     }
 }
