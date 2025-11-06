@@ -1,11 +1,15 @@
 public class HashMap {
-    private static final int DEFAULT_TABLE_SIZE = 1000000;
-    private static final double LOAD_FACTOR = 0.5;
+    private static final int DEFAULT_TABLE_SIZE = 967;
+    private static final double LOAD_FACTOR = 0.4;
     private int tableSize;
     private int numRecords;
     private String[] keys;
     private String[] values;
 
+    /**
+     * Constructor:
+     * Initializes variables
+     */
     public HashMap() {
         this.tableSize = DEFAULT_TABLE_SIZE;
         this.numRecords = 0;
@@ -27,11 +31,19 @@ public class HashMap {
         return hash;
     }
 
+    /**
+     * Method:
+     * Adds a key and value to an array
+     */
     public void add(String key, String value) {
+
+        // If the table needs to be resized
         if (numRecords * 1.0 / tableSize >= LOAD_FACTOR) {
             resize();
         }
         int index = (int)(hash(key) % tableSize);
+
+        // Loop through the array and check for an open index
         while (keys[index] != null) {
             if (keys[index].equals(key)) {
                 values[index] = value;
@@ -40,12 +52,18 @@ public class HashMap {
             index = (index + 1) % tableSize;
         }
         keys[index] = key;
-        values[index] = key;
+        values[index] = value;
         numRecords++;
     }
 
+    /**
+     * Method:
+     * Gets the value associated with a key
+     */
     public String get(String key) {
         int index = (int)(hash(key) % tableSize);
+
+        // Loop through the array and check if the key matches the key at index
         while (keys[index] != null) {
             if (keys[index].equals(key)) {
                 return values[index];
@@ -55,14 +73,22 @@ public class HashMap {
         return null;
     }
 
+    /**
+     * Method:
+     * Resizes the arrays while keeping the same values
+     */
     public void resize() {
-        int newSize = tableSize * 2;
+        int newSize = tableSize * 2 - 1;
+
+        // Save keys and values
         String[] oldKeys = keys;
         String[] oldValues = values;
         keys = new String[newSize];
         values = new String[newSize];
         tableSize = newSize;
         numRecords = 0;
+
+        // Load saved keys and values into
         for (int i = 0; i < oldKeys.length; i++) {
             if (oldKeys[i] != null) {
                 add(oldKeys[i], oldValues[i]);
