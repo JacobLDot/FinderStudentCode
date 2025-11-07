@@ -32,7 +32,7 @@ public class Finder {
         // to separate columns, then extract the key and value from the column
         // Finally, add the key and value to the table
         while ((line = br.readLine()) != null) {
-            String[] columns = line.split(",", -1);
+            String[] columns = line.split(",");
             String key = columns[keyCol];
             String value = columns[valCol];
             map.add(key, value);
