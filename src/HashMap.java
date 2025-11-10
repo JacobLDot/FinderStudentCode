@@ -1,6 +1,6 @@
 public class HashMap {
-    private static final int DEFAULT_TABLE_SIZE = 967;
-    private static final double LOAD_FACTOR = 0.4;
+    private static final int DEFAULT_TABLE_SIZE = 1627;
+    private static final double LOAD_FACTOR = 0.7;
     private int tableSize;
     private int numRecords;
     private String[] keys;
@@ -43,7 +43,7 @@ public class HashMap {
         }
         int index = (int)(hash(key) % tableSize);
 
-        // Loop through the array and check for an open index
+        // Loop through the array and check for an open index; move 1 right if already filled
         while (keys[index] != null) {
             if (keys[index].equals(key)) {
                 values[index] = value;
@@ -63,7 +63,7 @@ public class HashMap {
     public String get(String key) {
         int index = (int)(hash(key) % tableSize);
 
-        // Loop through the array and check if the key matches the key at index
+        // Loop through the array and check if the key matches the key at index; move 1 right if already filled
         while (keys[index] != null) {
             if (keys[index].equals(key)) {
                 return values[index];
@@ -88,7 +88,7 @@ public class HashMap {
         tableSize = newSize;
         numRecords = 0;
 
-        // Load saved keys and values into
+        // Load saved keys and values into the resized table
         for (int i = 0; i < oldKeys.length; i++) {
             if (oldKeys[i] != null) {
                 add(oldKeys[i], oldValues[i]);

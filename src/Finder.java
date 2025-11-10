@@ -47,6 +47,8 @@ public class Finder {
      * Returns value associated with a key
      */
     public String query(String key){
+
+        // Find key value, return it, otherwise if key is not found, return invalid
         String result = map.get(key);
         if (result == null) return INVALID;
         return result;
