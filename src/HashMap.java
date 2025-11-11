@@ -23,7 +23,7 @@ public class HashMap {
      */
     public static long hash(String key) {
         long hash = 0;
-        int RADIX = 256;
+        int RADIX = 31;
         long p = 54321102419L;
         for (int i = 0; i < key.length(); i++) {
             hash = (hash * RADIX + key.charAt(i)) % p;
